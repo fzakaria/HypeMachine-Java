@@ -1,0 +1,14 @@
+#java specific
+*.class
+
+#netbeans specific
+nbproject/
+nbacions.xml
+
+##generic files toignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
