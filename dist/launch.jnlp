@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="http://fzakaria.com/Downloadable/Development/hypem-java/." href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>HypeMachine Batch Downloader</title>
+        <vendor>Farid Zakaria</vendor>
+        <homepage href="www.fzakaria.com"/>
+        <description>This application allows a user to easily download songs
+from the Hype Machine (hypem.com) website easily.</description>
+        <description kind="short">HypeMachine Batch Downloader</description>
+        
+        
+    <icon href="icon-retina.png" kind="default"/>
+</information>
+    <update check="always"/>
+    <security>
+<all-permissions/>
+</security>
+    <resources>
+        <j2se version="1.6+"/>
+        <jar href="HypeMachine.jar" main="true"/>
+        
+        
+    <jar href="lib/swing-layout-1.0.4.jar"/>
+<jar href="lib/beansbinding-1.2.1.jar"/>
+<jar href="lib/commons-codec-1.4.jar"/>
+<jar href="lib/commons-logging-1.1.1.jar"/>
+<jar href="lib/httpclient-4.1.1.jar"/>
+<jar href="lib/httpclient-cache-4.1.1.jar"/>
+<jar href="lib/httpcore-4.1.jar"/>
+<jar href="lib/httpmime-4.1.1.jar"/>
+</resources>
+    <application-desc main-class="hypemachine.HypeMachine">
+        
+    </application-desc>
+</jnlp>
