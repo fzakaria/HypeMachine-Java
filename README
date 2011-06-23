@@ -1,1 +1,13 @@
 README FOR HYPEMACHINE-JAVA
+
+
+THINGS TO DO:
+- All song downloads are on their own thread. Change this to be that just ALL downloads are on seperate thread
+
+-Create a UI to display download progress bars
+
+-Allow Playback control on song
+
+-Allow editing of ID3 tags (Mp3 tags)
+
+-Get a better understanding of creating jnlp file
