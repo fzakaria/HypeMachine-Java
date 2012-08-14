@@ -77,10 +77,10 @@ public class HypeMachineParser {
                 
                 //System.out.println(HTMLfile);
                 
-                Pattern keyPattern = Pattern.compile("(?<=\tkey: \')\\w*(?=\')");
-                Pattern idPattern = Pattern.compile("(?<=\tid:\')\\w*(?=\')");
-                Pattern titlePattern = Pattern.compile("(?<=\tsong:\').*(?=\')");
-                Pattern artistPattern = Pattern.compile("(?<=\tartist:\').*(?=\')");
+                Pattern keyPattern = Pattern.compile("\s+key:\s*\'(.+)\'");
+                Pattern idPattern = Pattern.compile("\s+id:\s*\'(.+)\'");
+                Pattern titlePattern = Pattern.compile("\s+song:\s*\'(.+)\'");
+                Pattern artistPattern = Pattern.compile("\s+artist:\s*\'(.+)\'");
                 
                 Matcher keyMatcher = keyPattern.matcher(HTMLfile);
                 Matcher idMatcher = idPattern.matcher(HTMLfile);
