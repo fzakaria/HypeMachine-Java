@@ -4,13 +4,10 @@
  */
 package data;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import data.gsonHelper.Track;
+import data.gsonHelper.TrackListings;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,13 +15,24 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Document;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+
+import javax.print.Doc;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  *
  * @author fzakaria
  */
 public class HypeMachineParser {
-    private Document _dom = null;
+
     private static HypeMachineParser _instance = null;
     private String _url = "";
     
@@ -66,6 +74,8 @@ public class HypeMachineParser {
         
         HttpGet httpget = new HttpGet(urlLink);
         HttpResponse response = null;
+
+
         try {
             response = httpclient.execute(httpget);
             Header cookieHeader = response.getFirstHeader("Set-Cookie");
@@ -74,40 +84,20 @@ public class HypeMachineParser {
             if (entity != null)
             {
                 String HTMLfile = EntityUtils.toString(entity);
-                
-                //System.out.println(HTMLfile);
-                
-                Pattern keyPattern = Pattern.compile("\s+key:\s*\'(.+)\'");
-                Pattern idPattern = Pattern.compile("\s+id:\s*\'(.+)\'");
-                Pattern titlePattern = Pattern.compile("\s+song:\s*\'(.+)\'");
-                Pattern artistPattern = Pattern.compile("\s+artist:\s*\'(.+)\'");
-                
-                Matcher keyMatcher = keyPattern.matcher(HTMLfile);
-                Matcher idMatcher = idPattern.matcher(HTMLfile);
-                Matcher titleMatcher = titlePattern.matcher(HTMLfile);
-                Matcher artistMatcher = artistPattern.matcher(HTMLfile);
-                
-                String currentKey = "";
-                String currentID = "";
-                String currentTitle = "";
-                String currentArtist = "";
-                
-                while (idMatcher.find())
+                org.jsoup.nodes.Document document;
+                 document = Jsoup.parse(HTMLfile);
+                String trackListJSON = document.select("script#displayList-data").first().html();
+                trackListJSON = trackListJSON.replace("\\", "" );
+                Gson gson = new GsonBuilder().create();
+                TrackListings trackListings = gson.fromJson( trackListJSON, TrackListings.class);
+                int i = 1;
+
+                for( Track t : trackListings.tracks)
                 {
-                    keyMatcher.find();
-                    titleMatcher.find();
-                    artistMatcher.find();
-                    
-                    currentKey = keyMatcher.group();
-                    currentID = idMatcher.group();
-                    currentTitle = titleMatcher.group();
-                    currentArtist = artistMatcher.group();
-                    
-                    Song newSong = new Song(currentID, currentKey, currentTitle, currentArtist);
+
+                    Song newSong = new Song(t.id, t.key, t.title, t.artist);
                     newSong.setCookie(cookie);
-                    
-                    //System.out.println(newSong);
-                    
+
                     songs.add(newSong);
                 }
                 
